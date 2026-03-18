@@ -267,37 +267,124 @@ public class LinkedList {
         }
         return true;
     }
+
+    //Detected a loop / cycle in a LinkedList
+    public static boolean isCycle() {
+        Node slow = head;
+        Node fast = head;
+
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(slow == fast) {
+                return true; //cycle exist karti hai
+            }
+        }
+        return false; // cycle does not exist
+    } 
+
+    // public static void removeCycle() {
+    //     //detected cycle
+    //     Node slow = head;
+    //     Node fast = head;
+    //     boolean cycle = false;
+    //     while(fast != null && fast.next != null) {
+    //         slow = slow.next;
+    //         fast = fast.next.next;
+    //         if(fast == slow) {
+    //             cycle = true;
+    //             break;
+    //         }
+    //     }
+    //     if(cycle == false) {
+    //         return;
+    //     }
+
+    //     //Find meeting point 
+    //     slow = head;
+    //     Node prev = null;
+    //     while(slow != fast) {
+    //         prev = fast;
+    //         slow = slow.next;
+    //         fast = fast.next;
+    //     }
+
+    //     //Remove Cycle -> last.next = null
+    //     prev.next = null;
+    // }
+
+    public static void removeCycle() {
+        //detected cycle
+        Node slow = head;
+        Node fast = head;
+        boolean cycle = false;
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast) {
+                cycle = true;
+                break;
+            }
+        }
+        if(cycle == false) {
+            return;
+        }
+        //find meeting point 
+        slow = head;
+        Node prev = null;
+        while(slow != fast) {
+            slow = slow.next;
+            prev = fast;
+            fast = fast.next;
+        }
+        //remove cycle 
+
+        prev.next = null;
+    }
  
     
 
     public static void main(String args[]) {
-        LinkedList ll = new LinkedList();
-        ll.addFirst(2);
-        ll.addFirst(1);
-        ll.addLast(3);
-        ll.addLast(4);
+        // LinkedList ll = new LinkedList();
+        // ll.addFirst(2);
+        // ll.addFirst(1);
+        // ll.addLast(3);
+        // ll.addLast(4);
 
-        ll.addMiddle(9 , 2);
-        ll.print();
+        // ll.addMiddle(9 , 2);
+        // ll.print();
+        // // System.out.println(ll.size);
+
+        // ll.removeFirst();
+        // ll.print();
+
+        // ll.removeLast();
+        // ll.print();
         // System.out.println(ll.size);
 
-        ll.removeFirst();
-        ll.print();
+        // System.out.println(ll.recSearch(3));
+        // System.out.println(ll.recSearch(10));
 
-        ll.removeLast();
-        ll.print();
-        System.out.println(ll.size);
+        // System.out.println("---------------");
+        // ll.reverse();
+        // ll.print();
+        // System.out.println("--------------");
+        // ll.deleteNthfromEnd(3);
+        // ll.print();
 
-        System.out.println(ll.recSearch(3));
-        System.out.println(ll.recSearch(10));
+        // System.out.println(ll.checkPalindrome());
+        head = new Node(1);
+        Node temp = new Node(2);
+        head.next = temp;
+        head.next.next = new Node(3);
+        head.next.next.next = temp;
 
-        System.out.println("---------------");
-        ll.reverse();
-        ll.print();
-        System.out.println("--------------");
-        ll.deleteNthfromEnd(3);
-        ll.print();
+        
+        System.out.println(isCycle());
+        removeCycle();
+        System.out.println(isCycle());
 
-        System.out.println(ll.checkPalindrome());
+
     }
 } 
